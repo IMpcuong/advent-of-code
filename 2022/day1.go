@@ -25,8 +25,8 @@ func removeZeroVal(intArr []int) []int {
 	return intArr
 }
 
-func solvingDay1() (max int, sumTopThree int) {
-	caloriesData, _ := os.Open("day1.txt")
+func solvingDay1(path string) (max int, sumTopThree int) {
+	caloriesData, _ := os.Open(path)
 	dataScanner := bufio.NewScanner(caloriesData)
 	dataScanner.Split(bufio.ScanLines)
 
