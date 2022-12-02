@@ -3,6 +3,15 @@
 - This year I'm going to use `Golang`, and maybe some new languages for testing my ability to adapt to a new generation of programming languages.
 - Let's get the work done!!!
 
+- Initialize project:
+
+  ```bash
+  go work init
+  cd ./2022/
+  go mod init aoc-2022
+  go work use ./2022
+  ```
+
 <h2 align="center" style="color: lightgrey;">December 2022</h2>
 <br/>
 <table bgcolor="black" align="center" cellspacing="21" cellpadding="21">
