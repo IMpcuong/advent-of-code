@@ -14,6 +14,6 @@ func main() {
 	arrAns, max := solvingDay1("day1.txt")
 	printAnsWithPattern("=", fmt.Sprintf("%v\t%d", arrAns, max))
 
-	totalPoint := solvingDay2("day2.txt")
-	printAnsWithPattern("=", totalPoint)
+	totalPointP1, totalPointP2 := solvingDay2("day2.txt")
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", totalPointP1, totalPointP2))
 }
