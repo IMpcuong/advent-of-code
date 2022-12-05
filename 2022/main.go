@@ -15,6 +15,9 @@ func printAnsWithPattern(pattern string, ans interface{}) {
 }
 
 func main() {
+	// HACK(embed): Embedded file content into variable using `embed` package.
+	// Init()
+
 	// Day1:
 	path1 := getPathByDay(1)
 	maxVal, sumTopThree := solvingDay1(path1)
