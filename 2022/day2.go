@@ -13,8 +13,8 @@ const (
 )
 
 var (
-	AllyShape  []string       = []string{"X", "Y", "Z"}
-	EnemyShape []string       = []string{"A", "B", "C"}
+	AllyShape  []string       = []string{"X", "Y", "Z"} // Rock, Paper, Scissors
+	EnemyShape []string       = []string{"A", "B", "C"} // Rock, Paper, Scissors
 	OutcomeP1  map[string]int = map[string]int{
 		"AX": DRAW, "AY": WIN, "AZ": LOSE,
 		"BX": LOSE, "BY": DRAW, "BZ": WIN,
@@ -61,6 +61,8 @@ func getShapeIdx(our string, shapes []string) int {
 // + Comparison function: The most easiest way to deal with 2 discriminated arrays (where the underlying value is the same but only their masks were distinguished) is comparing the index from each particle --> Wrong!.
 
 // Part2:
+// Rule3 := map[string]int { "X": Lose, "Y": Draw, "Z": Win }
+// Exp: [A, Z] := Y (Enemy: 'Rock', Want 'Win' -> Ally: 'Scissors') -> getRoundPoint(A, Y)
 
 var (
 	Shapes map[string]int = map[string]int{
