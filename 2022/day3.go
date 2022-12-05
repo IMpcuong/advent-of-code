@@ -13,13 +13,13 @@ import (
 //go:embed day3.txt
 var input string
 
-// Init is a function used to test `embed` package only.
-func Init() {
+// EmbedData is a function used to test `embed` package only.
+func EmbedData() string {
 	input = strings.TrimRight(input, "\n")
-	fmt.Println(input)
 	if len(input) == 0 {
-		panic("Error: Empty input.txt file!")
+		panic("Error: Empty *.txt input file!")
 	}
+	return input
 }
 
 const ALPHABET string = "abcdefghijklmnopqrstuvwxyz"
@@ -55,6 +55,21 @@ func detectIdenticalChar(left, right string) string {
 	}
 
 	return *new(string)
+}
+
+func segregateLineByGroup(input string) []string {
+	rucksackItems := strings.Split(input, "\n")
+	if len(rucksackItems)%3 != 0 {
+		return make([]string, 0)
+	}
+
+	for i := 0; i+2 < len(rucksackItems); i += 3 {
+		first := rucksackItems[i]
+		second := rucksackItems[i+1]
+		third := rucksackItems[i+2]
+		fmt.Println(first, second, third)
+	}
+	return make([]string, 0)
 }
 
 func solvingDay3(path string) int {
