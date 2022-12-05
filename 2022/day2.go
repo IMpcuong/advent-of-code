@@ -22,6 +22,11 @@ var (
 	}
 )
 
+// NOTE:
+// 1. `String`` is an immutable byte sequence.
+// 2. `Byte slice` is a mutable byte sequence.
+// 3. `Rune slice` is re-grouping of byte slice so that each index is a character.
+
 func segregateByLine(path string) [][]string {
 	roundsAction, _ := os.Open(path)
 	dataScanner := bufio.NewScanner(roundsAction)
