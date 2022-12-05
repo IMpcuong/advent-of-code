@@ -24,7 +24,7 @@ func Init() {
 
 const ALPHABET string = "abcdefghijklmnopqrstuvwxyz"
 
-// NOTE: rucksack := { [leftCompartment, rightCompartment] | len(leftCompartment) = len(rigthCompartment) }
+// NOTE: rucksack := { [leftCompartment, rightCompartment] | len(leftCompartment) = len(rightCompartment) }
 
 func segregateLineByLength(path string) [][]string {
 	rucksackItems, _ := os.Open(path)
@@ -45,9 +45,9 @@ func segregateLineByLength(path string) [][]string {
 	return rucksackList
 }
 
-func detectIndeticalChar(left, right string) string {
+func detectIdenticalChar(left, right string) string {
 	// HACK(day3): Both strings have an identical length.
-	// HACK(day3): Only return first identical charater because 2 compartments only contain one.
+	// HACK(day3): Only return first identical character because 2 compartments only contain one.
 	for _, char := range left {
 		if strings.ContainsRune(right, char) {
 			return string(char)
@@ -62,7 +62,7 @@ func solvingDay3(path string) int {
 
 	rucksackList := segregateLineByLength(path)
 	for _, compartments := range rucksackList[:] {
-		identicalChar := detectIndeticalChar(compartments[0], compartments[1])
+		identicalChar := detectIdenticalChar(compartments[0], compartments[1])
 		if identicalChar == "" {
 			continue
 		}
