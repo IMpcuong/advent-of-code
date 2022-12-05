@@ -11,8 +11,8 @@ func printAnsWithPattern(pattern string, ans interface{}) {
 }
 
 func main() {
-	arrAns, max := solvingDay1("day1.txt")
-	printAnsWithPattern("=", fmt.Sprintf("%v\t%d", arrAns, max))
+	maxVal, sumTopThree := solvingDay1("day1.txt")
+	printAnsWithPattern("=", fmt.Sprintf("%v\t%d", maxVal, sumTopThree))
 
 	totalPointP1, totalPointP2 := solvingDay2("day2.txt")
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", totalPointP1, totalPointP2))

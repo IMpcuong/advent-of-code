@@ -34,7 +34,7 @@
       <td align="center"></td>
       <td align="center"></td>
       <td align="center"><a href="/2022/day1.go">1</a></td>
-      <td align="center">2</td>
+      <td align="center"><a href="/2022/day2.go">2</a></td>
       <td align="center">3</td>
     </tr>
     <tr></tr>
