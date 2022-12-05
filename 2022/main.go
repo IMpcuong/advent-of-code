@@ -16,7 +16,7 @@ func printAnsWithPattern(pattern string, ans interface{}) {
 
 func main() {
 	// HACK(embed): Embedded file content into variable using `embed` package.
-	// Init()
+	// EmbedData()
 
 	// Day1:
 	path1 := getPathByDay(1)
@@ -32,4 +32,6 @@ func main() {
 	path3 := getPathByDay(3)
 	prioritiesSum := solvingDay3(path3)
 	printAnsWithPattern("=", prioritiesSum)
+
+	segregateLineByGroup(input)
 }
