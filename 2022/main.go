@@ -30,8 +30,6 @@ func main() {
 
 	// Day3:
 	path3 := getPathByDay(3)
-	prioritiesSum := solvingDay3(path3)
-	printAnsWithPattern("=", prioritiesSum)
-
-	segregateLineByGroup(input)
+	prioritiesSumP1, prioritiesSumP2 := solvingDay3(path3)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", prioritiesSumP1, prioritiesSumP2))
 }
