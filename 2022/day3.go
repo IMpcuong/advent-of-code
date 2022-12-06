@@ -87,6 +87,8 @@ func segregateLineByGroup(input string) [][]string {
 // 115
 // ```
 
+// From: https://github.com/BaptisteLalanne/AdventOfCode/blob/d24e5fac929f91f9340041cf41c4889b0c5cc875/2022/day3/main.go#L78
+
 func detectGroupIdentical(first, second, third string) string {
 	var charMap = make(map[rune]string)
 	for _, char := range first {
@@ -109,6 +111,8 @@ func detectGroupIdentical(first, second, third string) string {
 	}
 	return commonChar
 }
+
+// End From: https://github.com/BaptisteLalanne/AdventOfCode/blob/d24e5fac929f91f9340041cf41c4889b0c5cc875/2022/day3/main.go#L92
 
 func calculateTypePriority(identicalChar string) int {
 	var priorityByType int
