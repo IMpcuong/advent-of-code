@@ -35,11 +35,11 @@
       <td align="center"></td>
       <td align="center"><a href="/2022/day1.go">1</a></td>
       <td align="center"><a href="/2022/day2.go">2</a></td>
-      <td align="center"><a href="/2022/day3.go">3</a><</td>
+      <td align="center"><a href="/2022/day3.go">3</a></td>
     </tr>
     <tr></tr>
     <tr>
-      <td align="center">4</td>
+      <td align="center"><a href="/2022/day4.go">4</a></td>
       <td align="center">5</td>
       <td align="center">6</td>
       <td align="center">7</td>
