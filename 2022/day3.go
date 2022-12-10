@@ -11,15 +11,15 @@ import (
 )
 
 //go:embed day3.txt
-var inputData string
+var day3Data string
 
 // EmbedData is a function used to test `embed` package only.
 func EmbedData() string {
-	inputData = strings.TrimRight(inputData, "\n")
-	if len(inputData) == 0 {
+	day3Data = strings.TrimRight(day3Data, "\n")
+	if len(day3Data) == 0 {
 		panic("Error: Empty *.txt input file!")
 	}
-	return inputData
+	return day3Data
 }
 
 const ALPHABET string = "abcdefghijklmnopqrstuvwxyz"
@@ -146,7 +146,7 @@ func solvingDay3(path string) (int, int) {
 
 	// Part2:
 	var prioritiesSumP2 int
-	rucksackListP2 := segregateLineByGroup(inputData)
+	rucksackListP2 := segregateLineByGroup(day3Data)
 	for _, group := range rucksackListP2[:] {
 		identicalCharInGroup := detectGroupIdentical(group[0], group[1], group[2])
 		prioritiesSumP2 += calculateTypePriority(identicalCharInGroup)

@@ -32,4 +32,8 @@ func main() {
 	path3 := getPathByDay(3)
 	prioritiesSumP1, prioritiesSumP2 := solvingDay3(path3)
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", prioritiesSumP1, prioritiesSumP2))
+
+	// Day4:
+	overlapSections := manipulateInput(day4Data)
+	fmt.Println(overlapSections)
 }
