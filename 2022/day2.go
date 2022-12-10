@@ -91,7 +91,7 @@ func solvingDay2(path string) (int, int) {
 	for _, round := range roundsData[:] {
 		// Part1:
 		allyShapePointP1 := getShapeIdx(round[1], AllyShape) + 1
-		totalScorePart1 += allyShapePointp1 + OutcomeP1[round[0]+round[1]]
+		totalScorePart1 += allyShapePointP1 + OutcomeP1[round[0]+round[1]]
 
 		// Part2:
 		enemyShape := getShapeIdx(round[0], EnemyShape)
