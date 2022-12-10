@@ -2,7 +2,9 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
 	"runtime"
+	"strconv"
 	"strings"
 )
 
@@ -19,14 +21,43 @@ func manipulateInput(input string) [][]string {
 
 	var overlapSections [][]string
 	for _, pair := range overlapPairs {
-		assignments := strings.Split(pair, "-")
-		first := assignments[0]
-		second := strings.Split(assignments[1], ",")[0]
-		third := strings.Split(assignments[1], ",")[1]
-		fourth := assignments[2]
-		assignments = []string{first, second, third, fourth}
-		overlapSections = append(overlapSections, assignments)
+		assignments := strings.Split(pair, ",")
+		firstPair := strings.Split(assignments[0], "-")
+		secondPair := strings.Split(assignments[1], "-")
+		section := append(firstPair, secondPair...)
+		overlapSections = append(overlapSections, section)
 	}
 
 	return overlapSections
+}
+
+func solvingPart1Day4(sections [][]string) (int, int) {
+	var overlappedP1 int
+	var overlappedP2 int = len(sections)
+	for _, section := range sections {
+		if len(section) != 4 {
+			fmt.Println("Input data length mismatched!")
+			break
+		}
+
+		firstOne, _ := strconv.Atoi(section[0])
+		firstTwo, _ := strconv.Atoi(section[1])
+		secondOne, _ := strconv.Atoi(section[2])
+		secondTwo, _ := strconv.Atoi(section[3])
+
+		// Part1+2:
+		if firstTwo < secondOne || secondTwo < firstOne {
+			overlappedP2--
+			continue
+		}
+		if firstTwo < secondTwo && firstOne < secondOne {
+			continue
+		}
+		if firstTwo > secondTwo && firstOne > secondOne {
+			continue
+		}
+		overlappedP1++
+	}
+
+	return overlappedP1, overlappedP2
 }

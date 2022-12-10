@@ -35,5 +35,6 @@ func main() {
 
 	// Day4:
 	overlapSections := manipulateInput(day4Data)
-	fmt.Println(overlapSections)
+	overlappedP1, overlappedP2 := solvingPart1Day4(overlapSections)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", overlappedP1, overlappedP2))
 }
