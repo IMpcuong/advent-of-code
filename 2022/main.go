@@ -42,6 +42,6 @@ func main() {
 	supplyStacks, instructions := partitionData(day5Data)
 	colStack := mapColStack(supplyStacks)
 	instructionObjs := mapInstructions(instructions)
-	fmt.Println(colStack)
-	fmt.Println(instructionObjs)
+	topCratesP1 := solvingDay5(colStack, instructionObjs)
+	printAnsWithPattern("=", topCratesP1) // Fail: `CCRCCCCCR`
 }

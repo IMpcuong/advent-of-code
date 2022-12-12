@@ -12,9 +12,9 @@ import (
 var day5Data string
 
 type Instruction struct {
-	Move uint16
-	From uint16
-	To   uint16
+	MoveAmount int
+	FromStack  int
+	ToStack    int
 }
 
 func partitionData(input string) (supplyStacks string, instructions []string) {
@@ -52,7 +52,6 @@ func mapColStack(matrixData string) map[int][]string {
 	for i := 0; i < 9; i++ {
 		clonedMap[i+1] = mapColStack[4*i+1]
 	}
-
 	return clonedMap
 }
 
@@ -61,16 +60,49 @@ func mapInstructions(instructionsAsStr []string) []Instruction {
 	for _, insStr := range instructionsAsStr {
 		numInStr := regexp.MustCompile(`\d+`).FindAllString(insStr, -1)
 
-		move, _ := strconv.ParseUint(numInStr[0], 10, 16)
-		from, _ := strconv.ParseUint(numInStr[1], 10, 16)
-		to, _ := strconv.ParseUint(numInStr[2], 10, 16)
+		move, _ := strconv.ParseInt(numInStr[0], 10, 16)
+		from, _ := strconv.ParseInt(numInStr[1], 10, 16)
+		to, _ := strconv.ParseInt(numInStr[2], 10, 16)
 		ins := Instruction{
-			Move: uint16(move),
-			From: uint16(from),
-			To:   uint16(to),
+			MoveAmount: int(move),
+			FromStack:  int(from),
+			ToStack:    int(to),
 		}
 		insObjs = append(insObjs, ins)
 	}
 
 	return insObjs
+}
+
+func reverseSlice[Type string | int](numbers []Type) []Type {
+	for i, j := 0, len(numbers)-1; i < j; i, j = i+1, j-1 {
+		numbers[i], numbers[j] = numbers[j], numbers[i]
+	}
+	return numbers
+}
+
+func solvingDay5(stacks map[int][]string, instructions []Instruction) string {
+	var topCrates []string
+
+	for _, ins := range instructions[:] {
+		amount := ins.MoveAmount
+		fromStack := ins.FromStack
+		toStack := ins.ToStack
+		// fmt.Println(amount, fromStack, toStack)
+		// fmt.Println(stacks[toStack])
+		// fmt.Println(stacks[fromStack][:amount])
+		prepend := reverseSlice(stacks[fromStack][:amount])
+		stacks[toStack] = append(prepend, stacks[toStack]...)
+		stacks[fromStack] = stacks[fromStack][amount:]
+		// fmt.Println(stacks[toStack])
+	}
+
+	for idx := 1; idx <= len(stacks); idx++ {
+		// if len(stacks[idx]) == 0 {
+		// 	stacks[idx] = append(stacks[idx], "")
+		// }
+		topCrates = append(topCrates, stacks[idx][0])
+	}
+
+	return strings.Join(topCrates, "")
 }
