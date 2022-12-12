@@ -31,7 +31,7 @@ func manipulateInput(input string) [][]string {
 	return overlapSections
 }
 
-func solvingPart1Day4(sections [][]string) (int, int) {
+func solvingDay4(sections [][]string) (int, int) {
 	var overlappedP1 int
 	var overlappedP2 int = len(sections)
 	for _, section := range sections {

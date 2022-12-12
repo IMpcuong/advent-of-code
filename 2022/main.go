@@ -35,11 +35,13 @@ func main() {
 
 	// Day4:
 	overlapSections := manipulateInput(day4Data)
-	overlappedP1, overlappedP2 := solvingPart1Day4(overlapSections)
+	overlappedP1, overlappedP2 := solvingDay4(overlapSections)
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", overlappedP1, overlappedP2))
 
 	// Day5:
-	supplyStacks, _ := partitionData(day5Data)
+	supplyStacks, instructions := partitionData(day5Data)
 	colStack := mapColStack(supplyStacks)
+	instructionObjs := mapInstructions(instructions)
 	fmt.Println(colStack)
+	fmt.Println(instructionObjs)
 }
