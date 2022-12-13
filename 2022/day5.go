@@ -105,7 +105,7 @@ func solvingDay5Part1(stacks map[int][]string, instructions []Instruction) strin
 }
 
 func solvingDay5Part2(stacks map[int][]string, instructions []Instruction) string {
-	var topCratesP1 []string
+	var topCratesP2 []string
 
 	for _, ins := range instructions[:] {
 		amount := ins.MoveAmount
@@ -120,8 +120,8 @@ func solvingDay5Part2(stacks map[int][]string, instructions []Instruction) strin
 
 	for idx := 1; idx <= len(stacks); idx++ {
 		stackHeight := len(stacks[idx])
-		topCratesP1 = append(topCratesP1, stacks[idx][stackHeight-1])
+		topCratesP2 = append(topCratesP2, stacks[idx][stackHeight-1])
 	}
 
-	return strings.Join(topCratesP1, "")
+	return strings.Join(topCratesP2, "")
 }
