@@ -49,8 +49,9 @@ func mapColStack(matrixData string) map[int][]string {
 	}
 
 	var clonedMap = make(map[int][]string)
-	for i := 0; i < 9; i++ {
+	for i := 0; i < len(mapColStack); i++ {
 		clonedMap[i+1] = mapColStack[4*i+1]
+		clonedMap[i+1] = reverseSlice(clonedMap[i+1])
 	}
 	return clonedMap
 }
@@ -74,11 +75,11 @@ func mapInstructions(instructionsAsStr []string) []Instruction {
 	return insObjs
 }
 
-func reverseSlice[Type string | int](numbers []Type) []Type {
-	for i, j := 0, len(numbers)-1; i < j; i, j = i+1, j-1 {
-		numbers[i], numbers[j] = numbers[j], numbers[i]
+func reverseSlice[Type string | int](slices []Type) []Type {
+	for i, j := 0, len(slices)-1; i < j; i, j = i+1, j-1 {
+		slices[i], slices[j] = slices[j], slices[i]
 	}
-	return numbers
+	return slices
 }
 
 func solvingDay5(stacks map[int][]string, instructions []Instruction) string {
@@ -88,20 +89,16 @@ func solvingDay5(stacks map[int][]string, instructions []Instruction) string {
 		amount := ins.MoveAmount
 		fromStack := ins.FromStack
 		toStack := ins.ToStack
-		// fmt.Println(amount, fromStack, toStack)
-		// fmt.Println(stacks[toStack])
-		// fmt.Println(stacks[fromStack][:amount])
-		prepend := reverseSlice(stacks[fromStack][:amount])
-		stacks[toStack] = append(prepend, stacks[toStack]...)
-		stacks[fromStack] = stacks[fromStack][amount:]
-		// fmt.Println(stacks[toStack])
+
+		stackHeight := len(stacks[fromStack])
+		copyFromIdx := stackHeight - amount
+		stacks[toStack] = append(stacks[toStack], reverseSlice(stacks[fromStack][copyFromIdx:stackHeight])...)
+		stacks[fromStack] = stacks[fromStack][:copyFromIdx]
 	}
 
 	for idx := 1; idx <= len(stacks); idx++ {
-		// if len(stacks[idx]) == 0 {
-		// 	stacks[idx] = append(stacks[idx], "")
-		// }
-		topCrates = append(topCrates, stacks[idx][0])
+		stackHeight := len(stacks[idx])
+		topCrates = append(topCrates, stacks[idx][stackHeight-1])
 	}
 
 	return strings.Join(topCrates, "")

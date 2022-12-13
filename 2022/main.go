@@ -43,5 +43,5 @@ func main() {
 	colStack := mapColStack(supplyStacks)
 	instructionObjs := mapInstructions(instructions)
 	topCratesP1 := solvingDay5(colStack, instructionObjs)
-	printAnsWithPattern("=", topCratesP1) // Fail: `CCRCCCCCR`
+	printAnsWithPattern("=", topCratesP1)
 }
