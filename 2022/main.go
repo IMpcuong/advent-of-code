@@ -41,7 +41,17 @@ func main() {
 	// Day5:
 	supplyStacks, instructions := partitionData(day5Data)
 	colStack := mapColStack(supplyStacks)
+	clonedColStack := make(map[int][]string)
+	clonedColStack = func(colMap map[int][]string) map[int][]string {
+		for k, v := range colMap {
+			clonedColStack[k] = v
+		}
+		return clonedColStack
+	}(colStack)
 	instructionObjs := mapInstructions(instructions)
-	topCratesP1 := solvingDay5(colStack, instructionObjs)
-	printAnsWithPattern("=", topCratesP1)
+	clonedInstructionObjs := make([]Instruction, 0)
+	clonedInstructionObjs = append(clonedInstructionObjs, instructionObjs...)
+	topCratesP1 := solvingDay5Part1(colStack, instructionObjs)
+	topCratesP2 := solvingDay5Part2(clonedColStack, clonedInstructionObjs)
+	printAnsWithPattern("=", fmt.Sprintf("%s\t%s", topCratesP1, topCratesP2))
 }

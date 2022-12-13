@@ -82,8 +82,8 @@ func reverseSlice[Type string | int](slices []Type) []Type {
 	return slices
 }
 
-func solvingDay5(stacks map[int][]string, instructions []Instruction) string {
-	var topCrates []string
+func solvingDay5Part1(stacks map[int][]string, instructions []Instruction) string {
+	var topCratesP1 []string
 
 	for _, ins := range instructions[:] {
 		amount := ins.MoveAmount
@@ -98,8 +98,30 @@ func solvingDay5(stacks map[int][]string, instructions []Instruction) string {
 
 	for idx := 1; idx <= len(stacks); idx++ {
 		stackHeight := len(stacks[idx])
-		topCrates = append(topCrates, stacks[idx][stackHeight-1])
+		topCratesP1 = append(topCratesP1, stacks[idx][stackHeight-1])
 	}
 
-	return strings.Join(topCrates, "")
+	return strings.Join(topCratesP1, "")
+}
+
+func solvingDay5Part2(stacks map[int][]string, instructions []Instruction) string {
+	var topCratesP1 []string
+
+	for _, ins := range instructions[:] {
+		amount := ins.MoveAmount
+		fromStack := ins.FromStack
+		toStack := ins.ToStack
+
+		stackHeight := len(stacks[fromStack])
+		copyFromIdx := stackHeight - amount
+		stacks[toStack] = append(stacks[toStack], stacks[fromStack][copyFromIdx:stackHeight]...)
+		stacks[fromStack] = stacks[fromStack][:copyFromIdx]
+	}
+
+	for idx := 1; idx <= len(stacks); idx++ {
+		stackHeight := len(stacks[idx])
+		topCratesP1 = append(topCratesP1, stacks[idx][stackHeight-1])
+	}
+
+	return strings.Join(topCratesP1, "")
 }
