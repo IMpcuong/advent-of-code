@@ -56,6 +56,7 @@ func main() {
 	printAnsWithPattern("=", fmt.Sprintf("%s\t%s", topCratesP1, topCratesP2))
 
 	firstPosPacketMarker := detectPacketMarker(day6Data)
-	firstPosMsgMarker := detectMsgMarker(day6Data)
-	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", firstPosPacketMarker, firstPosMsgMarker))
+	firstPosMsgMarkerV1 := detectMsgMarkerV1(day6Data, 14)
+	firstPosMsgMarkerV2 := detectMsgMarkerV2(day6Data, 14)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d\t%d", firstPosPacketMarker, firstPosMsgMarkerV1, firstPosMsgMarkerV2))
 }
