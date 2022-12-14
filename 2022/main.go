@@ -55,6 +55,8 @@ func main() {
 	topCratesP2 := solvingDay5Part2(clonedColStack, clonedInstructionObjs)
 	printAnsWithPattern("=", fmt.Sprintf("%s\t%s", topCratesP1, topCratesP2))
 
-	firstPosMarker := detectPacketMarker(day6Data)
-	printAnsWithPattern("=", firstPosMarker)
+	firstPosPacketMarker := detectPacketMarker(day6Data)
+	firstPosMsgMarkerV1 := detectMsgMarkerV1(day6Data, 14)
+	firstPosMsgMarkerV2 := detectMsgMarkerV2(day6Data, 14)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d\t%d", firstPosPacketMarker, firstPosMsgMarkerV1, firstPosMsgMarkerV2))
 }
