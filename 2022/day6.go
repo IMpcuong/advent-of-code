@@ -19,36 +19,44 @@ func detectPacketMarker(data string) int {
 	return -1
 }
 
-func RecursiveSearch(char byte, seq string, begin, end int) int {
-	if end < 1 {
+func RecursiveSearch(char byte, seq string, beginIdx, endIdx int) int {
+	if endIdx < beginIdx {
 		return -1
 	}
-	if seq[begin] == char {
-		return begin
+	if seq[beginIdx] == char {
+		return beginIdx
 	}
-	if seq[end] == char {
-		return end
+	if seq[endIdx] == char {
+		return endIdx
 	}
-	return RecursiveSearch(char, seq, begin+1, end-1)
+	return RecursiveSearch(char, seq, beginIdx+1, endIdx-1)
 }
 
 func detectMsgMarkerV1(data string, longest int) int {
-	for cusPos := longest; cusPos <= len(data); cusPos++ {
+	for curPos := longest; curPos <= len(data); curPos++ {
 		// NOTE: The ordinary implementation for the data structure `map` was built on hashmap/swiss-table inspiration.
-		mapChar := make(map[rune]struct{}) // Equals to: `map[rune]struct{}{}`
-		for _, r := range data[cusPos-longest : cusPos] {
+		mapChar := make(map[rune]struct{}) // Equals to: `map[rune]struct{}{}`.
+		for _, r := range data[curPos-longest : curPos] {
 			mapChar[r] = *new(struct{}) // Equals to: `struct{}{}`.
 		}
 		if len(mapChar) >= longest {
-			return cusPos
+			return curPos
 		}
 	}
 	return -1
 }
 
 func detectMsgMarkerV2(data string, longest int) int {
-	for i, char := range data {
-		return i + int(char)
+	for curPos := longest; curPos <= len(data); curPos++ {
+		begin := curPos - longest
+		needed := data[begin]
+		for chunkIdx, char := range data[begin+1 : curPos] {
+			if needed == byte(char) && chunkIdx-begin >= longest {
+				return chunkIdx
+			}
+			begin++
+		}
 	}
+
 	return -1
 }
