@@ -9,8 +9,8 @@ import (
 func TestDuplicateChar(t *testing.T) {
 	assert := assert.New(t)
 
-	nonDistinctionStr := "abbccdefggaaf"
+	nonDistinctionStr := "jlltwtsszwswgs"
 	distinctionStr := "abcdefg"
-	assert.True(existDuplicateChar(nonDistinctionStr), true)
-	assert.False(existDuplicateChar(distinctionStr), false)
+	assert.True(uniqueChars(nonDistinctionStr), false)
+	assert.True(uniqueChars(distinctionStr), true)
 }

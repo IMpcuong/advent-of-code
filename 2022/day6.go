@@ -46,32 +46,35 @@ func detectMsgMarkerV1(data string, longest int) int {
 	return -1
 }
 
-func existDuplicateChar(data string) bool {
+// From: https://www.geeksforgeeks.org/determine-string-unique-characters/
+func uniqueChars(data string) bool {
 	// Assuming string can have characters from ASCII Encodes (UTF-32 characters).
-	var bitChecker int8 = 0
+	//
+	// Exp: `posBitChecker := 0*26 (0 * 26 times)`.
+	var posBitChecker int64 = 0
 
 	// NOTE: `rune` are type alias for type `int32`.
 	for _, char := range data {
-		bitAtIdx := char - 'a'
+		posInAlphabet := char - 'a'
 
-		// If that bit already exists in the bitChecker's value, then return true.
-		if (bitChecker & (1 << bitAtIdx)) > 0 {
-			return true
+		// If that bit already exists in the bitChecker's value, then return false.
+		if (posBitChecker & (1 << posInAlphabet)) > 0 {
+			return false
 		}
 		// Otherwise, update and continue by setting the current bit to bitChecker.
-		bitChecker |= 1 << bitAtIdx
+		posBitChecker |= 1 << posInAlphabet
 	}
-	return false
+
+	// No duplicates encountered, return true.
+	return true
 }
 
 func detectMsgMarkerV2(data string, longest int) int {
 	for curPos := longest; curPos <= len(data); curPos++ {
-		duplicated := existDuplicateChar(data[curPos-longest : curPos])
-		if duplicated == true {
-			curPos += longest
-			continue
+		isUnique := uniqueChars(data[curPos-longest : curPos])
+		if isUnique {
+			return curPos
 		}
-		return curPos
 	}
 
 	return -1
