@@ -46,16 +46,32 @@ func detectMsgMarkerV1(data string, longest int) int {
 	return -1
 }
 
+func existDuplicateChar(data string) bool {
+	// Assuming string can have characters from ASCII Encodes (UTF-32 characters).
+	var bitChecker int8 = 0
+
+	// NOTE: `rune` are type alias for type `int32`.
+	for _, char := range data {
+		bitAtIdx := char - 'a'
+
+		// If that bit already exists in the bitChecker's value, then return true.
+		if (bitChecker & (1 << bitAtIdx)) > 0 {
+			return true
+		}
+		// Otherwise, update and continue by setting the current bit to bitChecker.
+		bitChecker |= 1 << bitAtIdx
+	}
+	return false
+}
+
 func detectMsgMarkerV2(data string, longest int) int {
 	for curPos := longest; curPos <= len(data); curPos++ {
-		begin := curPos - longest
-		needed := data[begin]
-		for chunkIdx, char := range data[begin+1 : curPos] {
-			if needed == byte(char) && chunkIdx-begin >= longest {
-				return chunkIdx
-			}
-			begin++
+		duplicated := existDuplicateChar(data[curPos-longest : curPos])
+		if duplicated == true {
+			curPos += longest
+			continue
 		}
+		return curPos
 	}
 
 	return -1
