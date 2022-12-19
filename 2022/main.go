@@ -63,5 +63,6 @@ func main() {
 
 	// Day7:
 	part1Ans := solutionForP1(day7Data)
-	printAnsWithPattern("=", fmt.Sprintf("%d", part1Ans))
+	part2Ans := solutionForP2(day7Data)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", part1Ans, part2Ans))
 }

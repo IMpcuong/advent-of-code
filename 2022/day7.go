@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"math"
 	"runtime"
 	"strconv"
 	"strings"
@@ -28,7 +29,7 @@ func parseInputToTree(input string) *Dir {
 		Parent:  nil,
 	}
 
-	var curLevelParent = rootDir
+	var curLevelParent = rootDir // NOTE: Each level's parent directory.
 	for _, line := range lines {
 		commandParts := strings.Split(line, " ")
 		if commandParts[0] == "$" {
@@ -92,7 +93,9 @@ func (dir *Dir) AppendFile(inputFileSize int, fileName string) {
 	}
 }
 
-func (dir *Dir) CalculateRecursiveP1(sum *int) int {
+// CalculateRecursiveP1 fills the given tree's structure with the storage of each subdirectory
+// following its original order.
+func (dir *Dir) CalculateRecursiveP1(sumStorage *int) int {
 	if dir.CurSize != 0 {
 		panic("Cannot compute root directory's size!")
 	}
@@ -102,14 +105,27 @@ func (dir *Dir) CalculateRecursiveP1(sum *int) int {
 	}
 
 	for _, subDir := range dir.SubDirs {
-		dir.CurSize += subDir.CalculateRecursiveP1(sum)
+		dir.CurSize += subDir.CalculateRecursiveP1(sumStorage)
 	}
 
 	if dir.CurSize < 100e3 {
-		*sum += dir.CurSize
+		*sumStorage += dir.CurSize // NOTE: Using an integer pointer to reserve the summary of all satisfied directories' size.
 	}
 
 	return dir.CurSize
+}
+
+func (dir *Dir) CalculateRecursiveP2(neededStorage *int, smallest *int) int {
+	if dir.CurSize > *neededStorage && dir.CurSize < *smallest {
+		// NOTE: If we don't use the integer pointer in this case precisely,
+		// then the underlying pointee's value cannot be updated (the smallest).
+		*smallest = dir.CurSize
+	}
+	for _, subDir := range dir.SubDirs {
+		subDir.CalculateRecursiveP2(neededStorage, smallest)
+	}
+
+	return *smallest
 }
 
 func solutionForP1(input string) int {
@@ -117,4 +133,15 @@ func solutionForP1(input string) int {
 	sum := 0
 	rootDir.CalculateRecursiveP1(&sum)
 	return sum
+}
+
+func solutionForP2(input string) int {
+	rootDir := parseInputToTree(input)
+	sum := 0
+	rootDir.CalculateRecursiveP1(&sum)
+
+	smallest := math.MaxInt // Equals to: `1<<(intSize-1) - 1`.
+	neededStorage := 30e6 - (70e6 - rootDir.CurSize)
+	smallest = rootDir.CalculateRecursiveP2(&neededStorage, &smallest)
+	return smallest
 }
