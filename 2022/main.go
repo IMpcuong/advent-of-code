@@ -65,4 +65,9 @@ func main() {
 	part1Ans := solutionForP1(day7Data)
 	part2Ans := solutionForP2(day7Data)
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", part1Ans, part2Ans))
+
+	// Day8:
+	matrix := convertToMatrix(day8Data)
+	// fmt.Println(matrix[:2])
+	fmt.Println(locateVisibleTree(matrix))
 }
