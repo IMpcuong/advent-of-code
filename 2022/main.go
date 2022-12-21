@@ -68,6 +68,7 @@ func main() {
 
 	// Day8:
 	matrix := convertToMatrix(day8Data)
-	fmt.Println(locateVisibleTree(matrix))
-	fmt.Println(computeVisibleRange(matrix))
+	sumAllVisisbleTree := locateVisibleTree(matrix)
+	bestVisibleRange := computeVisibleRange(matrix)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", sumAllVisisbleTree, bestVisibleRange))
 }
