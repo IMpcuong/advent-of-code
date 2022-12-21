@@ -2,6 +2,8 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
+	"math"
 	"runtime"
 	"strings"
 )
@@ -24,6 +26,53 @@ type Matrix [][]int
 
 func (m Matrix) Get(x, y int) int {
 	return m[x][y]
+}
+
+func (m Matrix) GetRange(x, y int) int {
+	var scenicRange = make([]int, 0)
+	if x == 0 || y == 0 || x == len(m)-1 || y == len(m)-1 {
+		return 0
+	}
+
+	for _, direction := range Directions {
+		curX := x
+		curY := y
+		for {
+			curX = curX + direction[0]
+			curY = curY + direction[1]
+			if curX < 0 || curY >= len(m) || curX >= len(m) || curY < 0 {
+				break
+			}
+			if m.Get(x, y) <= m.Get(curX, curY) {
+				if curX == x {
+					scenicRange = append(scenicRange, int(math.Abs(float64(curY-y))))
+				} else if curY == y {
+					scenicRange = append(scenicRange, int(math.Abs(float64(curX-x))))
+				}
+				break
+			} else {
+				if curX < x {
+					scenicRange = append(scenicRange, x)
+				} else if x > curX {
+					scenicRange = append(scenicRange, len(m)-x)
+				} else if curY < y {
+					scenicRange = append(scenicRange, y)
+				} else {
+					scenicRange = append(scenicRange, len(m)-1-y)
+				}
+				break
+			}
+		}
+	}
+	// NOTE: The arduous cases were about the height difference between our and grid's edge (our > edge).
+	fmt.Println(scenicRange)
+
+	var visibleSize int = 1
+	for _, rangeDir := range scenicRange {
+		visibleSize *= rangeDir
+	}
+
+	return visibleSize
 }
 
 func convertToMatrix(input string) Matrix {
@@ -84,4 +133,16 @@ func locateVisibleTree(grid Matrix) int {
 
 	visibleCount += len(grid)*4 - 4
 	return visibleCount
+}
+
+func computeVisibleRange(grid Matrix) int {
+	var visibleRange int
+	for rowId := 0; rowId < len(grid); rowId++ {
+		for colId := 0; colId < len(grid[rowId]); colId++ {
+			fmt.Println(grid.Get(rowId, colId))
+			visibleRange += grid.GetRange(rowId, colId)
+		}
+	}
+
+	return visibleRange
 }

@@ -68,6 +68,6 @@ func main() {
 
 	// Day8:
 	matrix := convertToMatrix(day8Data)
-	// fmt.Println(matrix[:2])
 	fmt.Println(locateVisibleTree(matrix))
+	fmt.Println(computeVisibleRange(matrix))
 }
