@@ -2,12 +2,11 @@ package main
 
 import (
 	_ "embed"
-	"fmt"
 	"runtime"
 	"strings"
 )
 
-//go:embed day8_sample.txt
+//go:embed day8.txt
 var day8Data string
 
 // Visualization problem:
@@ -61,7 +60,24 @@ func locateVisibleTree(grid Matrix) int {
 	for rowId := 1; rowId < len(grid)-1; rowId++ {
 		for colId := 1; colId < len(grid[rowId])-1; colId++ {
 			for _, direction := range Directions {
-				fmt.Println(direction)
+				curX := rowId
+				curY := colId
+				isVisible := true
+				for {
+					curX = curX + direction[0]
+					curY = curY + direction[1]
+					if curX < 0 || curY >= len(grid) || curX >= len(grid) || curY < 0 {
+						break
+					}
+					if grid.Get(rowId, colId) <= grid.Get(curX, curY) {
+						isVisible = false
+						break
+					}
+				}
+				if isVisible {
+					visibleCount++
+					break
+				}
 			}
 		}
 	}
