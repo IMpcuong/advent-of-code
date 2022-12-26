@@ -2,13 +2,14 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
 	"math"
 	"runtime"
 	"strconv"
 	"strings"
 )
 
-//go:embed day9_sample.txt
+//go:embed day9.txt
 var day9Data string
 
 type Movement struct {
@@ -94,14 +95,13 @@ func (k *Knot) AdjustTail(newHead Knot) {
 			k.y = newHead.y - disY
 		}
 	} else if absY < absX {
+		k.y = newHead.y
 		if isNegative(disX) {
 			k.x = newHead.x + disX
 		} else {
 			k.x = newHead.x - disX
 		}
-		k.y = newHead.y
 	} else {
-		// FIXME: 4 negative condition waiting to be checked.
 		// NOTE: `disX == disY`.
 		if isNegative(disX) && isNegative(disY) {
 			k.x = newHead.x + disX
@@ -110,5 +110,46 @@ func (k *Knot) AdjustTail(newHead Knot) {
 			k.x = newHead.x - disX
 			k.y = newHead.y - disY
 		}
+
+		if isNegative(disX) && !isNegative(disY) {
+			k.x = newHead.x + disX
+			k.y = newHead.y - disY
+		} else {
+			k.x = newHead.x - disX
+			k.y = newHead.y + disY
+		}
 	}
+}
+
+// func countUniquePos(trace []Knot) int {
+// 	hashSet := map[Knot]struct{}{}
+// 	for _, k := range trace {
+// 		hashSet[k] = struct{}{}
+// 	}
+// 	return len(hashSet)
+// }
+
+// NOTE: 1500 too low.
+
+func solvingDay9Part1(data string) int {
+	knots := make([]Knot, 10)
+
+	hashSet := map[Knot]struct{}{}
+	motions := convertToMovements(data)
+	for _, m := range motions {
+		for idx := range knots {
+			// NOTE: `head` move normally.
+			if idx == 0 {
+				knots[idx].MoveWithDirection(m)
+				continue
+			}
+			head := knots[idx-1]
+			knots[idx].AdjustTail(head)
+			hashSet[knots[idx]] = struct{}{}
+		} // Move all knots, finish one motion from one instruction.
+	} // Finish all motions as instruction list.
+
+	fmt.Println(knots)
+
+	return len(hashSet)
 }

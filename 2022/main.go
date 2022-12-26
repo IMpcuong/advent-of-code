@@ -73,6 +73,6 @@ func main() {
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", sumAllVisisbleTree, bestVisibleRange))
 
 	// Day9:
-	movements := convertToMovements(day9Data)
-	printAnsWithPattern("=", fmt.Sprintf("%#v", movements))
+	uniqueKnotPosP1 := solvingDay9Part1(day9Data)
+	printAnsWithPattern("=", fmt.Sprintf("%#v", uniqueKnotPosP1))
 }
