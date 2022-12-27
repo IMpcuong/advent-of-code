@@ -38,8 +38,14 @@ func convertToMovements(input string) []Movement {
 	return movements
 }
 
-func isNegative(num int) bool {
-	return math.Signbit(float64(num))
+func getSign(num int) int {
+	if num > 0 {
+		return 1
+	}
+	if num < 0 {
+		return -1
+	}
+	return 0
 }
 
 // NOTE: `Knots := {Head(x, y), Tail(x, y)}`.
@@ -58,96 +64,76 @@ func (k *Knot) New(newX, newY int) *Knot {
 
 func (k *Knot) MoveWithDirection(m Movement) {
 	switch m.Direction {
-	case "R":
-		k.x += m.Steps
-	case "L":
-		k.x -= m.Steps
-	case "U":
-		k.y -= m.Steps
-	case "D":
-		k.y += m.Steps
+	case "R": // Right.
+		k.x += 1
+	case "L": // Left.
+		k.x -= 1
+	case "U": // Up.
+		k.y += 1
+	case "D": // Down.
+		k.y -= 1
 	default:
 		panic("Error: Directional opaque!")
 	}
 }
 
-func (k Knot) DistanceWith(other Knot) (int, int) {
+func (k Knot) DiffEachAxis(other Knot) (int, int) {
 	return other.x - k.x, other.y - k.y
 }
 
-func (k *Knot) AdjustTail(newHead Knot) {
+func (k *Knot) TailMoveToward(newHead Knot) {
 	tail := *k
-	disX, disY := newHead.DistanceWith(tail)
+	disX, disY := newHead.DiffEachAxis(tail)
 	absX, absY := math.Abs(float64(disX)), math.Abs(float64(disY))
 
 	// NOTE: If the `newHead` and the `oldTail` (k) have the maximum
-	// distance (in absolute) between them in the range of -/+1, then
-	// we won't need to update anything.
+	// 			 distance (in absolute) between them are between the range of [-1; +1],
+	// 			 then we won't need to update anything.
 	if math.Max(absX, absY) <= 1 {
 		return
 	}
 
+	// NOTE: In each instruction of motion, the rope is moved by an atomic distance,
+	//			 or more specifically, by routing along each axis within the boundary of a digit.
 	if absY > absX {
 		k.x = newHead.x
-		if isNegative(disY) {
-			k.y = newHead.y + disY
-		} else {
-			k.y = newHead.y - disY
-		}
+		k.y = newHead.y - getSign(disY)
 	} else if absY < absX {
 		k.y = newHead.y
-		if isNegative(disX) {
-			k.x = newHead.x + disX
-		} else {
-			k.x = newHead.x - disX
-		}
+		k.x = newHead.x - getSign(disX)
 	} else {
 		// NOTE: `disX == disY`.
-		if isNegative(disX) && isNegative(disY) {
-			k.x = newHead.x + disX
-			k.y = newHead.y + disY
-		} else {
-			k.x = newHead.x - disX
-			k.y = newHead.y - disY
-		}
-
-		if isNegative(disX) && !isNegative(disY) {
-			k.x = newHead.x + disX
-			k.y = newHead.y - disY
-		} else {
-			k.x = newHead.x - disX
-			k.y = newHead.y + disY
-		}
+		k.x = newHead.x - getSign(disX)
+		k.y = newHead.y - getSign(disY)
 	}
 }
 
-// func countUniquePos(trace []Knot) int {
-// 	hashSet := map[Knot]struct{}{}
-// 	for _, k := range trace {
-// 		hashSet[k] = struct{}{}
-// 	}
-// 	return len(hashSet)
-// }
-
-// NOTE: 1500 too low.
-
 func solvingDay9Part1(data string) int {
-	knots := make([]Knot, 10)
-
-	hashSet := map[Knot]struct{}{}
 	motions := convertToMovements(data)
-	for _, m := range motions {
-		for idx := range knots {
-			// NOTE: `head` move normally.
-			if idx == 0 {
-				knots[idx].MoveWithDirection(m)
-				continue
-			}
-			head := knots[idx-1]
-			knots[idx].AdjustTail(head)
-			hashSet[knots[idx]] = struct{}{}
-		} // Move all knots, finish one motion from one instruction.
-	} // Finish all motions as instruction list.
+	knots := [2]Knot{} // NOTE: `Rope := { (Tail, Head) := (Knot(x1,y1), Knot(x2, y2)) }`.
+	hashSet := make(map[Knot]struct{})
+
+	// Solution2:
+	// trace := []Knot{}
+	// trace = append(trace, knots[1]) // NOTE: Tracing after each tail's last position, and recorded by an array.
+
+	for _, m := range motions[:10] {
+		for step := 0; step < m.Steps; step++ {
+			for idx := range knots {
+				// NOTE: `head` move normally.
+				if idx == 0 {
+					knots[idx].MoveWithDirection(m)
+					continue
+				}
+				head := knots[idx-1]
+				knots[idx].TailMoveToward(head)
+			} // Move both knots.
+
+			hashSet[knots[len(knots)-2]] = struct{}{} // Adding each knot-tail's position into the hash set.
+			fmt.Println(knots)
+			fmt.Println(hashSet)
+		} // Finish one motion from one instruction.
+	} // Finish all motions as the instruction list.
 
 	fmt.Println(knots)
 
