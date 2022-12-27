@@ -80,6 +80,8 @@ func (k Knot) DiffEachAxis(other Knot) (float64, float64) {
 	return k.x - other.x, k.y - other.y
 }
 
+// Idea from: https://github.com/sluongng/advent2022/blob/31c1b99ec28432aac144adfad50c7b9870a95888/day9/src/main.rs#L37
+
 func (k *Knot) TailMoveToward(newHead Knot) {
 	tail := *k
 	disX, disY := newHead.DiffEachAxis(tail)
@@ -114,6 +116,8 @@ func (k *Knot) TailMoveToward(newHead Knot) {
 	// End From: https://github.com/sluongng/advent2022/blob/fe20a9bbe3bcbe4580f54dde6e71429c3984e807/day9/src/main.rs#L49
 }
 
+// End From: https://github.com/sluongng/advent2022/blob/31c1b99ec28432aac144adfad50c7b9870a95888/day9/src/main.rs#L51
+
 func solvingDay9(data string, ropeLen int) int {
 	motions := convertToMovements(data)
 	knots := make([]Knot, ropeLen) // NOTE: `Rope := { (Head, Tail) := (Knot(x0, y0), Knot(xN, yN)) | 0 <= i <= N=ropeLen }`.
@@ -138,7 +142,7 @@ func solvingDay9(data string, ropeLen int) int {
 
 			hashSet[knots[len(knots)-1]] = struct{}{} // Adding each knot-tail's position into the hash set.
 		} // Finish one motion from one instruction.
-	} // Finish all motions as the instruction list.
+	} // Finish all motions as the instruction list was told.
 
 	return len(hashSet)
 }
