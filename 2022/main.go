@@ -71,4 +71,8 @@ func main() {
 	sumAllVisisbleTree := locateVisibleTree(matrix)
 	bestVisibleRange := computeVisibleRange(matrix)
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", sumAllVisisbleTree, bestVisibleRange))
+
+	// Day9:
+	uniqueTailPosP1, uniquetailPosP2 := solvingDay9(day9Data, 2), solvingDay9(day9Data, 10)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", uniqueTailPosP1, uniquetailPosP2))
 }
