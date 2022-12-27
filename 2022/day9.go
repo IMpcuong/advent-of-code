@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"fmt"
 	"math"
 	"runtime"
 	"strconv"
@@ -38,12 +37,12 @@ func convertToMovements(input string) []Movement {
 	return movements
 }
 
-func getSign(num float64) float64 {
-	if num > 1 {
-		return 1
+func getEdgeVal(num, min, max float64) float64 {
+	if num > max {
+		num = max
 	}
-	if num < -1 {
-		return -1
+	if num < min {
+		num = min
 	}
 	return num
 }
@@ -78,7 +77,7 @@ func (k *Knot) MoveWithDirection(direction string) {
 }
 
 func (k Knot) DiffEachAxis(other Knot) (float64, float64) {
-	return other.x - k.x, other.y - k.y
+	return k.x - other.x, k.y - other.y
 }
 
 func (k *Knot) TailMoveToward(newHead Knot) {
@@ -95,31 +94,36 @@ func (k *Knot) TailMoveToward(newHead Knot) {
 
 	// NOTE: In each instruction of motion, the rope is moved by an atomic distance,
 	//	or more specifically, by routing along each axis within the boundary of an unit.
-	// if absY > absX {
-	// 	k.x = newHead.x
-	// 	k.y = newHead.y - getSign(disY)
-	// } else if absY < absX {
-	// 	k.y = newHead.y
-	// 	k.x = newHead.x - getSign(disX)
-	// } else {
-	// 	// NOTE: `disX == disY`.
-	// 	k.x = newHead.x - getSign(disX)
-	// 	k.y = newHead.y - getSign(disY)
-	// }
-	k.x += getSign(newHead.x)
-	k.y += getSign(newHead.y)
+	if absY > absX {
+		k.x = newHead.x
+		k.y = newHead.y - getEdgeVal(disY, -1, 1)
+	} else if absY < absX {
+		k.y = newHead.y
+		k.x = newHead.x - getEdgeVal(disX, -1, 1)
+	} else {
+		// NOTE: `absX == absY`.
+		k.x = newHead.x - getEdgeVal(disX, -1, 1)
+		k.y = newHead.y - getEdgeVal(disY, -1, 1)
+	}
+
+	// Solution2: Inspired from https://github.com/sluongng/advent2022/blob/fe20a9bbe3bcbe4580f54dde6e71429c3984e807/day9/src/main.rs#L48
+
+	// k.x += getEdgeVal(disX, -1, 1)
+	// k.y += getEdgeVal(disY, -1, 1)
+
+	// End From: https://github.com/sluongng/advent2022/blob/fe20a9bbe3bcbe4580f54dde6e71429c3984e807/day9/src/main.rs#L49
 }
 
-func solvingDay9Part1(data string) int {
+func solvingDay9(data string, ropeLen int) int {
 	motions := convertToMovements(data)
-	knots := [2]Knot{} // NOTE: `Rope := { (Head, Tail) := (Knot(x0, y0), Knot(x1, y1)) }`.
+	knots := make([]Knot, ropeLen) // NOTE: `Rope := { (Head, Tail) := (Knot(x0, y0), Knot(xN, yN)) | 0 <= i <= N=ropeLen }`.
 	hashSet := make(map[Knot]struct{})
 
 	// Solution2:
 	// trace := []Knot{}
-	// trace = append(trace, knots[1]) // NOTE: Tracing after each tail's last position, and recorded by an array.
+	// trace = append(trace, knots[len(knots)-1]) // NOTE: Tracing after each tail's last position, and recorded by an array.
 
-	for _, m := range motions[:20] {
+	for _, m := range motions[:] {
 		for step := 0; step < m.Steps; step++ {
 			for idx := range knots {
 				// NOTE: `head` move normally.
@@ -133,13 +137,8 @@ func solvingDay9Part1(data string) int {
 			} // Move both knots.
 
 			hashSet[knots[len(knots)-1]] = struct{}{} // Adding each knot-tail's position into the hash set.
-			fmt.Println(m)
-			fmt.Println(knots)
-			// fmt.Println(hashSet)
 		} // Finish one motion from one instruction.
 	} // Finish all motions as the instruction list.
-
-	fmt.Println(knots)
 
 	return len(hashSet)
 }

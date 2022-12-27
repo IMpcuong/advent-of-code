@@ -73,6 +73,6 @@ func main() {
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", sumAllVisisbleTree, bestVisibleRange))
 
 	// Day9:
-	uniqueKnotPosP1 := solvingDay9Part1(day9Data)
-	printAnsWithPattern("=", fmt.Sprintf("%#v", uniqueKnotPosP1))
+	uniqueTailPosP1, uniquetailPosP2 := solvingDay9(day9Data, 2), solvingDay9(day9Data, 10)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", uniqueTailPosP1, uniquetailPosP2))
 }
