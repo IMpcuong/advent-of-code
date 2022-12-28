@@ -78,4 +78,8 @@ func main() {
 	// Day9:
 	uniqueTailPosP1, uniquetailPosP2 := solvingDay9(day9Data, 2), solvingDay9(day9Data, 10)
 	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", uniqueTailPosP1, uniquetailPosP2))
+
+	// Day10:
+	res, cycles := solvingDay10P1(day10Data, 40)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", res, cycles))
 }
