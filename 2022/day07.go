@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-//go:embed day7.txt
+//go:embed day07.txt
 var day7Data string
 
 // NOTE: This solution was coming from `https://github.com/alokmenghrajani/adventofcode2022/blob/main/day07/day07.go`.

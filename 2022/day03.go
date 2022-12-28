@@ -10,7 +10,7 @@ import (
 	"unicode/utf8"
 )
 
-//go:embed day3.txt
+//go:embed day03.txt
 var day3Data string
 
 // EmbedData is a function used to test `embed` package only.

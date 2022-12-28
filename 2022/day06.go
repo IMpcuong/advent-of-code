@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-//go:embed day6.txt
+//go:embed day06.txt
 var day6Data string
 
 // NOTE: This was a completely bogus solution!

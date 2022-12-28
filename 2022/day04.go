@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-//go:embed day4.txt
+//go:embed day04.txt
 var day4Data string
 
 func manipulateInput(input string) [][]string {

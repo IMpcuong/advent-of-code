@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-//go:embed day8.txt
+//go:embed day08.txt
 var day8Data string
 
 // Visualization problem:

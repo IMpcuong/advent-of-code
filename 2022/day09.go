@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-//go:embed day9.txt
+//go:embed day09.txt
 var day9Data string
 
 type Movement struct {

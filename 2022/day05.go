@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-//go:embed day5.txt
+//go:embed day05.txt
 var day5Data string
 
 type Instruction struct {
