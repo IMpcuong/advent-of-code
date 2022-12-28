@@ -6,7 +6,10 @@ import (
 )
 
 func getPathByDay(day int) string {
-	return fmt.Sprintf("day%d.txt", day)
+	if day > 9 {
+		return fmt.Sprintf("day%d.txt", day)
+	}
+	return fmt.Sprintf("day%d%d.txt", 0, day)
 }
 
 func printAnsWithPattern(pattern string, ans interface{}) {
@@ -16,7 +19,7 @@ func printAnsWithPattern(pattern string, ans interface{}) {
 
 func main() {
 	// HACK(embed): Embedded file content into variable using `embed` package.
-	// EmbedData()
+	// EmbedData() // Example.
 
 	// Day1:
 	path1 := getPathByDay(1)
