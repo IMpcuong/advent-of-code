@@ -71,13 +71,13 @@ func main() {
 
 	// Day8:
 	matrix := convertToMatrix(day8Data)
-	sumAllVisisbleTree := locateVisibleTree(matrix)
+	sumAllVisibleTree := locateVisibleTree(matrix)
 	bestVisibleRange := computeVisibleRange(matrix)
-	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", sumAllVisisbleTree, bestVisibleRange))
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", sumAllVisibleTree, bestVisibleRange))
 
 	// Day9:
-	uniqueTailPosP1, uniquetailPosP2 := solvingDay9(day9Data, 2), solvingDay9(day9Data, 10)
-	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", uniqueTailPosP1, uniquetailPosP2))
+	uniqueTailPosP1, uniqueTailPosP2 := solvingDay9(day9Data, 2), solvingDay9(day9Data, 10)
+	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", uniqueTailPosP1, uniqueTailPosP2))
 
 	// Day10:
 	res, cycles := solvingDay10P1(day10Data, 40)
