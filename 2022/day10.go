@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"fmt"
 	"runtime"
 	"strconv"
 	"strings"
@@ -54,23 +53,32 @@ func convertToSignal(input string) []Signal {
 	return signals
 }
 
+func signalStrength(cyclePos, regVal, divisor int) int {
+	var res int
+	if cyclePos%divisor == 20 {
+		res = cyclePos * regVal
+	} else {
+		res = 0
+	}
+	return res
+}
+
 func solvingDay10P1(input string, divisor int) (int, int) {
-	var valInReg int = 1
-	var cyclePos int
+	var regX int = 1
+	var cyclePos int = 1
 
 	result := 0
 	signals := convertToSignal(input)
 	for _, s := range signals {
-		// fmt.Printf("%#v\t%#v\n", s.Cycles, *(s.Instruction))
-
-		cyclePos += s.Cycles
-		valInReg += (*s.Instruction).Value
-		fmt.Println(cyclePos, valInReg)
-
-		if cyclePos%divisor == 20 {
-			val := cyclePos * valInReg
-			fmt.Println("=====>\t", cyclePos, result)
-			result += val
+		if s.Cycles == 2 {
+			result += signalStrength(cyclePos, regX, divisor)
+			cyclePos += s.Cycles / 2
+			result += signalStrength(cyclePos, regX, divisor)
+			cyclePos += s.Cycles / 2
+			regX += (*s.Instruction).Value
+		} else {
+			result += signalStrength(cyclePos, regX, divisor)
+			cyclePos += s.Cycles
 		}
 	}
 

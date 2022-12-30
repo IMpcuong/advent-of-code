@@ -81,5 +81,5 @@ func main() {
 
 	// Day10:
 	res, cycles := solvingDay10P1(day10Data, 40)
-	printAnsWithPattern("=", fmt.Sprintf("%d\t%d", res, cycles))
+	printAnsWithPattern("=", fmt.Sprintf("%d - %d", res, cycles))
 }
