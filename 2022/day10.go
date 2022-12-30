@@ -2,6 +2,8 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
+	"math"
 	"runtime"
 	"strconv"
 	"strings"
@@ -83,4 +85,47 @@ func solvingDay10P1(input string, divisor int) (int, int) {
 	}
 
 	return result, cyclePos
+}
+
+const (
+	COLS int = 40
+	ROWS int = 6
+)
+
+func renderPixel(screen *[ROWS][COLS]string, cyclePos, regVal int) {
+	// NOTE: `1 sprite := 3 pixels`.
+	// NOTE: `(cyclePos := [1; 6]) == (COLS := [0; 5])` -> `COL := cyclePos - 1`.
+	pixelX := (cyclePos - 1) % COLS // Horizontal axis -> `pixelX := [0; 39]`.
+	pixelY := (cyclePos - 1) / COLS // Vertical axis -> `pixelY := COL * [0; 39]`.
+
+	// NOTE: `regVal` == current position of the sprite, counting from the left most pixel.
+	if math.Abs(float64(pixelX-regVal)) < 2 {
+		(*screen)[pixelY][pixelX] = "#"
+	} else {
+		(*screen)[pixelY][pixelX] = "."
+	}
+}
+
+func solvingDay10P2(input string) {
+	var regX int = 1
+	var cyclePos int = 1
+
+	screen := [ROWS][COLS]string{}
+	signals := convertToSignal(input)
+	for _, s := range signals {
+		if s.Cycles == 2 {
+			renderPixel(&screen, cyclePos, regX)
+			cyclePos += s.Cycles / 2
+			renderPixel(&screen, cyclePos, regX)
+			cyclePos += s.Cycles / 2
+			regX += (*s.Instruction).Value
+		} else {
+			renderPixel(&screen, cyclePos, regX)
+			cyclePos += s.Cycles
+		}
+	}
+
+	for row := 0; row < ROWS; row++ {
+		fmt.Println(screen[row])
+	}
 }
